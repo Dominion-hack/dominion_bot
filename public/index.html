@@ -1,0 +1,164 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HACKER PAIRING UI</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#050505;
+overflow:hidden;
+}
+
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at center,#00ff9960 0%,transparent 60%);
+animation:pulse 3s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.1);}
+100%{transform:scale(1);}
+}
+
+.box{
+position:relative;
+width:380px;
+padding:35px;
+border:2px solid #00ff99;
+border-radius:20px;
+background:#0b0b0b;
+box-shadow:
+0 0 10px #00ff99,
+0 0 20px #00ff99,
+0 0 40px #00ff99;
+text-align:center;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{
+box-shadow:
+0 0 10px #00ff99,
+0 0 20px #00ff99,
+0 0 40px #00ff99;
+}
+to{
+box-shadow:
+0 0 20px #00ff99,
+0 0 40px #00ff99,
+0 0 70px #00ff99;
+}
+}
+
+h1{
+color:#00ff99;
+font-size:28px;
+margin-bottom:10px;
+text-shadow:0 0 10px #00ff99;
+}
+
+p{
+color:white;
+margin-bottom:25px;
+font-size:13px;
+}
+
+input{
+width:100%;
+padding:14px;
+border:none;
+outline:none;
+border-radius:10px;
+background:#111;
+color:#00ff99;
+font-size:15px;
+border:1px solid #00ff99;
+box-shadow:0 0 10px #00ff9950;
+margin-bottom:20px;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#00ff99;
+color:black;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 15px #00ff99;
+}
+
+button:hover{
+transform:scale(1.05);
+background:white;
+}
+
+#result{
+margin-top:20px;
+color:#00ff99;
+font-size:18px;
+font-weight:bold;
+text-shadow:0 0 10px #00ff99;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h1>⚡ HACKER PAIRING ⚡</h1>
+<p>Connect Your WhatsApp Bot From Telegram</p>
+
+<input type="text" id="number" placeholder="234xxxxxxxxx">
+
+<button onclick="pair()">PAIR NOW</button>
+
+<div id="result"></div>
+</div>
+
+<script>
+async function pair() {
+const number = document.getElementById("number").value;
+
+if(!number) return alert("Enter phone number");
+
+const res = await fetch("/pair", {
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({ number })
+});
+
+const data = await res.json();
+
+document.getElementById("result").innerHTML =
+`PAIR CODE:<br>${data.code}`;
+}
+</script>
+
+</body>
+</html>
